@@ -770,34 +770,33 @@
       z-index: 9999;
       display: grid;
       place-items: center;
-      background:
-        radial-gradient(circle at 50% 40%, rgba(0,87,255,.22), transparent 34%),
-        linear-gradient(135deg, #020814, #001e50 55%, #05070a);
+      background: #020814;
       color: var(--white);
-      transition: opacity .6s ease, visibility .6s ease, transform .6s ease;
+      transition: opacity .75s ease, visibility .75s ease, transform .75s ease;
       overflow: hidden;
     }
 
-    .intro-loader::before,
+    .intro-loader::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(0, 10, 28, .96), rgba(0, 30, 80, .70) 42%, rgba(0, 0, 0, .20)),
+        url("diagnostico-vw-entrada.png") center/cover no-repeat;
+      transform: scale(1.07);
+      animation: introZoom 3.2s ease forwards;
+    }
+
     .intro-loader::after {
       content: "";
       position: absolute;
-      width: 52vw;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #73a8ff, transparent);
-      opacity: .55;
-      animation: lightMove 1.8s ease-in-out infinite;
-    }
-
-    .intro-loader::before {
-      top: 30%;
-      left: -18%;
-    }
-
-    .intro-loader::after {
-      bottom: 26%;
-      right: -18%;
-      animation-delay: .35s;
+      inset: 0;
+      background:
+        radial-gradient(circle at 18% 26%, rgba(115,168,255,.22), transparent 22%),
+        linear-gradient(120deg, transparent 0%, rgba(115,168,255,.22) 46%, transparent 58%);
+      transform: translateX(-100%);
+      animation: introLight 2.6s ease .25s forwards;
+      pointer-events: none;
     }
 
     .intro-loader.hide {
@@ -810,24 +809,24 @@
     .intro-box {
       position: relative;
       z-index: 2;
-      width: min(780px, calc(100% - 36px));
-      text-align: center;
-      padding: 28px;
-      animation: introUp .8s ease both;
+      width: min(760px, calc(100% - 36px));
+      margin-right: auto;
+      padding: clamp(24px, 5vw, 70px);
+      animation: introUp .9s ease both;
     }
 
     .intro-logo {
-      width: 86px;
-      height: 86px;
-      border: 2px solid rgba(255,255,255,.82);
+      width: 78px;
+      height: 78px;
+      border: 2px solid rgba(255,255,255,.90);
       border-radius: 50%;
       display: grid;
       place-items: center;
-      margin: 0 auto 26px;
+      margin-bottom: 28px;
       font-weight: 900;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       letter-spacing: -.04em;
-      box-shadow: 0 0 40px rgba(0,87,255,.35);
+      box-shadow: 0 0 42px rgba(0,87,255,.42);
       animation: logoGlow 1.5s ease-in-out infinite alternate;
     }
 
@@ -843,21 +842,24 @@
       margin-bottom: 18px;
     }
 
-    .intro-label::before,
-    .intro-label::after {
+    .intro-label::before {
       content: "";
-      width: 28px;
-      height: 2px;
+      width: 34px;
+      height: 3px;
       border-radius: 99px;
       background: #0057ff;
     }
 
+    .intro-label::after {
+      content: none;
+    }
+
     .intro-box h2 {
-      font-size: clamp(2.3rem, 6vw, 5.5rem);
-      line-height: .95;
+      font-size: clamp(2.4rem, 7vw, 5.7rem);
+      line-height: .94;
       letter-spacing: -.06em;
       max-width: 760px;
-      margin-inline: auto;
+      text-shadow: 0 12px 34px rgba(0,0,0,.35);
     }
 
     .intro-box h2 span {
@@ -865,9 +867,9 @@
     }
 
     .intro-box p {
-      margin: 20px auto 0;
+      margin-top: 20px;
       max-width: 620px;
-      color: rgba(255,255,255,.76);
+      color: rgba(255,255,255,.78);
       font-size: clamp(1rem, 2vw, 1.2rem);
       line-height: 1.65;
     }
@@ -877,8 +879,8 @@
       width: min(420px, 82vw);
       height: 5px;
       border-radius: 999px;
-      margin: 34px auto 0;
-      background: rgba(255,255,255,.14);
+      margin-top: 34px;
+      background: rgba(255,255,255,.16);
       overflow: hidden;
     }
 
@@ -889,18 +891,23 @@
       border-radius: inherit;
       background: linear-gradient(90deg, #73a8ff, #0057ff, #ffffff);
       transform-origin: left;
-      animation: introProgress 1.8s ease forwards;
+      animation: introProgress 2.2s ease forwards;
     }
 
     @keyframes introUp {
       from {
         opacity: 0;
-        transform: translateY(28px);
+        transform: translateY(30px);
       }
       to {
         opacity: 1;
         transform: translateY(0);
       }
+    }
+
+    @keyframes introZoom {
+      from { transform: scale(1.08); }
+      to { transform: scale(1.01); }
     }
 
     @keyframes logoGlow {
@@ -909,7 +916,7 @@
         transform: scale(1);
       }
       to {
-        box-shadow: 0 0 48px rgba(115,168,255,.48);
+        box-shadow: 0 0 54px rgba(115,168,255,.58);
         transform: scale(1.04);
       }
     }
@@ -919,9 +926,28 @@
       to { transform: scaleX(1); }
     }
 
-    @keyframes lightMove {
-      0%, 100% { transform: translateX(-20px); opacity: .2; }
-      50% { transform: translateX(60px); opacity: .8; }
+    @keyframes introLight {
+      from { transform: translateX(-100%); opacity: 0; }
+      35% { opacity: .9; }
+      to { transform: translateX(100%); opacity: 0; }
+    }
+
+    @media (max-width: 640px) {
+      .intro-loader::before {
+        background:
+          linear-gradient(180deg, rgba(0, 10, 28, .96), rgba(0, 30, 80, .78) 52%, rgba(0,0,0,.42)),
+          url("diagnostico-vw-entrada.png") center/cover no-repeat;
+      }
+
+      .intro-box {
+        margin: 0;
+        padding: 28px;
+      }
+
+      .intro-logo {
+        width: 66px;
+        height: 66px;
+      }
     }
 
   </style>
@@ -931,9 +957,9 @@
   <div class="intro-loader" id="introLoader" aria-hidden="true">
     <div class="intro-box">
       <div class="intro-logo">VW</div>
-      <div class="intro-label">Diagnóstico em preparação</div>
+      <div class="intro-label">Diagnóstico digital</div>
       <h2>Prepare-se para ver <span>melhorias na jornada Volkswagen</span>.</h2>
-      <p>Carregando uma análise objetiva com evidências, impacto e sugestões de correção.</p>
+      <p>Uma análise visual com evidências públicas, impacto na experiência e sugestões objetivas de melhoria.</p>
       <div class="intro-progress"><span></span></div>
     </div>
   </div>
@@ -1261,12 +1287,12 @@
     window.addEventListener("load", () => {
       setTimeout(() => {
         introLoader?.classList.add("hide");
-      }, 1900);
+      }, 2850);
     });
 
     setTimeout(() => {
       introLoader?.classList.add("hide");
-    }, 2800);
+    }, 3900);
 
     const menu = document.querySelector("#menu");
     const nav = document.querySelector("#nav");
