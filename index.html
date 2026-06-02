@@ -763,10 +763,181 @@
         padding: 28px;
       }
     }
+
+    .intro-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 50% 40%, rgba(0,87,255,.22), transparent 34%),
+        linear-gradient(135deg, #020814, #001e50 55%, #05070a);
+      color: var(--white);
+      transition: opacity .6s ease, visibility .6s ease, transform .6s ease;
+      overflow: hidden;
+    }
+
+    .intro-loader::before,
+    .intro-loader::after {
+      content: "";
+      position: absolute;
+      width: 52vw;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #73a8ff, transparent);
+      opacity: .55;
+      animation: lightMove 1.8s ease-in-out infinite;
+    }
+
+    .intro-loader::before {
+      top: 30%;
+      left: -18%;
+    }
+
+    .intro-loader::after {
+      bottom: 26%;
+      right: -18%;
+      animation-delay: .35s;
+    }
+
+    .intro-loader.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: scale(1.02);
+    }
+
+    .intro-box {
+      position: relative;
+      z-index: 2;
+      width: min(780px, calc(100% - 36px));
+      text-align: center;
+      padding: 28px;
+      animation: introUp .8s ease both;
+    }
+
+    .intro-logo {
+      width: 86px;
+      height: 86px;
+      border: 2px solid rgba(255,255,255,.82);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 26px;
+      font-weight: 900;
+      font-size: 1.2rem;
+      letter-spacing: -.04em;
+      box-shadow: 0 0 40px rgba(0,87,255,.35);
+      animation: logoGlow 1.5s ease-in-out infinite alternate;
+    }
+
+    .intro-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #9bc2ff;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      font-size: .78rem;
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    .intro-label::before,
+    .intro-label::after {
+      content: "";
+      width: 28px;
+      height: 2px;
+      border-radius: 99px;
+      background: #0057ff;
+    }
+
+    .intro-box h2 {
+      font-size: clamp(2.3rem, 6vw, 5.5rem);
+      line-height: .95;
+      letter-spacing: -.06em;
+      max-width: 760px;
+      margin-inline: auto;
+    }
+
+    .intro-box h2 span {
+      color: #73a8ff;
+    }
+
+    .intro-box p {
+      margin: 20px auto 0;
+      max-width: 620px;
+      color: rgba(255,255,255,.76);
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      line-height: 1.65;
+    }
+
+    .intro-progress {
+      position: relative;
+      width: min(420px, 82vw);
+      height: 5px;
+      border-radius: 999px;
+      margin: 34px auto 0;
+      background: rgba(255,255,255,.14);
+      overflow: hidden;
+    }
+
+    .intro-progress span {
+      display: block;
+      height: 100%;
+      width: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #73a8ff, #0057ff, #ffffff);
+      transform-origin: left;
+      animation: introProgress 1.8s ease forwards;
+    }
+
+    @keyframes introUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes logoGlow {
+      from {
+        box-shadow: 0 0 18px rgba(0,87,255,.28);
+        transform: scale(1);
+      }
+      to {
+        box-shadow: 0 0 48px rgba(115,168,255,.48);
+        transform: scale(1.04);
+      }
+    }
+
+    @keyframes introProgress {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+
+    @keyframes lightMove {
+      0%, 100% { transform: translateX(-20px); opacity: .2; }
+      50% { transform: translateX(60px); opacity: .8; }
+    }
+
   </style>
 </head>
 
 <body>
+  <div class="intro-loader" id="introLoader" aria-hidden="true">
+    <div class="intro-box">
+      <div class="intro-logo">VW</div>
+      <div class="intro-label">Diagnóstico em preparação</div>
+      <h2>Prepare-se para ver <span>melhorias na jornada Volkswagen</span>.</h2>
+      <p>Carregando uma análise objetiva com evidências, impacto e sugestões de correção.</p>
+      <div class="intro-progress"><span></span></div>
+    </div>
+  </div>
+
   <div class="notice">
     Projeto demonstrativo criado por Gabriel Alves. Análise pública, ética e sem vínculo oficial com a Volkswagen.
   </div>
@@ -1084,6 +1255,19 @@
   </footer>
 
   <script>
+
+    const introLoader = document.querySelector("#introLoader");
+
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        introLoader?.classList.add("hide");
+      }, 1900);
+    });
+
+    setTimeout(() => {
+      introLoader?.classList.add("hide");
+    }, 2800);
+
     const menu = document.querySelector("#menu");
     const nav = document.querySelector("#nav");
 
